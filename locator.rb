@@ -47,9 +47,28 @@ def article_xpath(elem)
   else
     return '/' + out
   end
-
 end
 
+def tosback_xml(url, xpath, content)
+  sitename = URI(url).host.match(/[^\.]+\.\w+$/).to_s
+  type = 'ToS'
+  if content =~ /privacy/i and content =~ /policy/i
+    type = 'Privacy Policy'
+  elsif content =~ /terms/i and content =~ /service/i
+    type = 'Terms of Service'
+
+  end
+
+  return <<-XML
+<sitename name="#{sitename}">
+  <docname name="#{type}">
+    <url name="#{url}" xpath="#{xpath}">
+     <norecurse name="arbitrary"/>
+    </url>
+  </docname>
+</sitename>
+XML
+end
 
 
 url = ARGV[0]
@@ -57,7 +76,10 @@ url = ARGV[0]
 source = open(url).read
 doc = Readability::Document.new(source)
 content = doc.content
+xpath = article_xpath(doc.best_candidate[:elem])
 
 puts content
-puts article_xpath(doc.best_candidate[:elem])
+puts xpath
+puts "\n\n"
+puts tosback_xml(url, xpath, content)
 
