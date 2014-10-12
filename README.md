@@ -19,7 +19,7 @@ Installation
 
 All you need should get installed fairly quickly by running
 
-  $ bundle install
+    $ bundle install
 
 Note that you need [bundler](http://bundler.io/) for that -- you can install
 that by running (`gem install bundler`).
@@ -30,7 +30,7 @@ Usage
 To find the XPath for the privacy policy located at
 `https://www.khanacademy.org/about/privacy-policy` one can run
 
-  $ ./locator.rb https://www.khanacademy.org/about/privacy-policy
+    $ ./locator.rb https://www.khanacademy.org/about/privacy-policy
 
 The output should consist of the extracted Privacy Policy and XML that
 specifies the rule. An example can be find below

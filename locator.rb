@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'rubygems'
 require 'bundler/setup'
 require 'ruby-readability'
@@ -52,9 +54,9 @@ end
 def tosback_xml(url, xpath, content)
   sitename = URI(url).host.match(/[^\.]+\.\w+$/).to_s
   type = 'ToS'
-  if content =~ /privacy/i and content =~ /policy/i
+  if content =~ /privacy/i and content =~ /policy|policies/i
     type = 'Privacy Policy'
-  elsif content =~ /terms/i and content =~ /service/i
+  elsif content =~ /terms/i and content =~ /service|services/i
     type = 'Terms of Service'
 
   end
@@ -79,7 +81,6 @@ content = doc.content
 xpath = article_xpath(doc.best_candidate[:elem])
 
 puts content
-puts xpath
 puts "\n\n"
 puts tosback_xml(url, xpath, content)
 
