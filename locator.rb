@@ -16,6 +16,11 @@ def article_xpath(elem)
   clean_tags = 0
   out = ''
   for _ in 1..3
+    if elem.attr('id') =~ /^contents?$/i
+      out = stringify_node(elem, 'id')
+      break
+    end
+
     # if there is a class that explicitely as terms, privacy, policy or service
     # in it then it should be enough to locate our desired content on the page
     # by using this element
@@ -39,7 +44,11 @@ def article_xpath(elem)
       out = '/' + elem.name + out
     end
 
-    elem = elem.parent
+    if elem.respond_to? :parent
+      break
+    else
+      elem = elem.parent
+    end
   end
 
   # if we ran into just clean tags rather return a direct XPath than our 3-way
@@ -72,15 +81,20 @@ def tosback_xml(url, xpath, content)
 XML
 end
 
+def xpath_contents_from_url(url)
+  source = open(url).read
+  doc = Readability::Document.new(source)
+  content = doc.content
 
-url = ARGV[0]
+  xpath = article_xpath(doc.best_candidate[:elem])
 
-source = open(url).read
-doc = Readability::Document.new(source)
-content = doc.content
+  return content, xpath
+end
 
-puts content
-# puts "\n\n"
-# xpath = article_xpath(doc.best_candidate[:elem])
-# puts tosback_xml(url, xpath, content)
-
+if __FILE__ == $0
+  url = ARGV[0]
+  content, xpath = xpath_contents_from_url(url)
+  puts content
+  puts "\n\n"
+  puts tosback_xml(url, xpath, content)
+end
