@@ -78,9 +78,9 @@ url = ARGV[0]
 source = open(url).read
 doc = Readability::Document.new(source)
 content = doc.content
-xpath = article_xpath(doc.best_candidate[:elem])
 
 puts content
-puts "\n\n"
-puts tosback_xml(url, xpath, content)
+# puts "\n\n"
+# xpath = article_xpath(doc.best_candidate[:elem])
+# puts tosback_xml(url, xpath, content)
 
