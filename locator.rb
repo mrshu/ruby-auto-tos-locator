@@ -4,7 +4,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'ruby-readability'
 
-require 'open-uri'
+require 'open_uri_redirections'
 
 def stringify_node(node, attribute)
   return "/%s[@%s='%s']" % [node.name, attribute, node.attr(attribute)]
@@ -44,17 +44,21 @@ def article_xpath(elem)
       out = '/' + elem.name + out
     end
 
-    if elem.respond_to? :parent
-      break
-    else
+    begin
       elem = elem.parent
+    rescue NoMethodError
+      elem = elem
     end
   end
 
   # if we ran into just clean tags rather return a direct XPath than our 3-way
   # approximation
   if clean_tags == 3
-    return Nokogiri::CSS.xpath_for elem.css_path
+    begin
+      return Nokogiri::CSS.xpath_for elem.css_path
+    rescue Nokogiri::CSS::SyntaxError
+      return "//div[@id='css-syntax-error']"
+    end
   else
     return '/' + out
   end
@@ -82,7 +86,7 @@ XML
 end
 
 def xpath_contents_from_url(url)
-  source = open(url).read
+  source = open(url, :allow_redirections => :safe).read
   doc = Readability::Document.new(source)
   content = doc.content
 

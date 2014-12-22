@@ -4,7 +4,6 @@ require 'nokogiri'
 require './locator.rb'
 
 problematic_urls = Array.new
-http_urls = Array.new
 
 rules = Dir.glob(File.join("tosback2", "rules", "*.xml"))
 rules.each { |x|
@@ -25,13 +24,9 @@ rules.each { |x|
       end
 
       begin
-        input = Nokogiri::HTML(open(url))
-      rescue RuntimeError
-        puts "MISSED probably open loop " + url
-        http_urls.push(url)
-        next
+        input = Nokogiri::HTML(open(url, :allow_redirections => :safe))
       rescue
-        puts "MISSED other problem (403?)" + url
+        puts "MISSED other problem (403?) " + url
         problematic_urls.push(url)
         next
       end
