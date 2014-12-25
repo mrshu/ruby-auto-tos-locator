@@ -2,6 +2,7 @@
 
 require 'nokogiri'
 require './locator.rb'
+require 'similar_text'
 
 problematic_urls = Array.new
 
@@ -25,8 +26,8 @@ rules.each { |x|
 
       begin
         input = Nokogiri::HTML(open(url, :allow_redirections => :safe))
-      rescue
-        puts "MISSED other problem (403?) " + url
+      rescue Exception => e
+        puts "MISSED other problem (403?) (#{e}!) " + url
         problematic_urls.push(url)
         next
       end
@@ -48,7 +49,7 @@ rules.each { |x|
       if c.length == 0 and nc.length != 0
         puts "NEW BETTER XPATH " + url + " " + new_xpath + " vs " + xpath
       elsif contents != new_contents
-        puts "FAIL " + url
+        puts "FAIL " + url + " similarity: " + c.similar(nc).to_s
         puts "=========================="
         puts contents
         puts "----------------------\n\n"
