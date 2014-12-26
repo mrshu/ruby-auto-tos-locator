@@ -46,10 +46,12 @@ rules.each { |x|
         next
       end
 
+      similarity = c.similar(nc)
+
       if c.length == 0 and nc.length != 0
         puts "NEW BETTER XPATH " + url + " " + new_xpath + " vs " + xpath
-      elsif contents != new_contents
-        puts "FAIL " + url + " similarity: " + c.similar(nc).to_s
+      elsif contents != new_contents and similarity < 95.0
+        puts "FAIL " + url + " similarity: " + similarity.to_s
         puts "=========================="
         puts contents
         puts "----------------------\n\n"
@@ -58,7 +60,7 @@ rules.each { |x|
         puts xpath, new_xpath, url
         puts "=========================="
       else
-        puts "PASSED " + url
+        puts "PASSED " + url + " similarity:" + similarity.to_s
       end
     end
   end
