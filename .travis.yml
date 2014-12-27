@@ -1,6 +1,12 @@
 language: ruby
 rvm:
-        - 2.1.1
+  - "2.1.1"
 gemfile:
-        - Gemfile
+  - Gemfile
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+
+before_install:
+  - gem install bundler
 script: ruby test.rb
