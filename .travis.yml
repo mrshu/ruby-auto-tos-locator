@@ -4,4 +4,3 @@ rvm:
 gemfile:
         - Gemfile
 script: ruby test.rb
-before_script: "git submodule update"
