@@ -25,7 +25,7 @@ rules.each { |x|
       end
 
       begin
-        input = Nokogiri::HTML(open(url, :allow_redirections => :safe))
+        input = Nokogiri::HTML(open(url, :allow_redirections => :all))
       rescue Exception => e
         puts "MISSED other problem (403?) (#{e}!) " + url
         problematic_urls.push(url)

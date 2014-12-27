@@ -4,6 +4,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'ruby-readability'
 
+require 'open-uri'
 require 'open_uri_redirections'
 
 def stringify_node(node, attribute)
@@ -86,7 +87,7 @@ XML
 end
 
 def xpath_contents_from_url(url)
-  source = open(url, :allow_redirections => :safe).read
+  source = open(url, :allow_redirections => :all).read
   doc = Readability::Document.new(source)
   content = doc.content
 
