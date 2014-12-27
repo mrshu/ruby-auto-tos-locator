@@ -15,6 +15,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  nokogiri
   open_uri_redirections
   ruby-readability
   similar_text

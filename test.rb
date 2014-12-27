@@ -53,10 +53,6 @@ rules.each { |x|
       elsif contents != new_contents and similarity < 95.0
         puts "FAIL " + url + " similarity: " + similarity.to_s
         puts "=========================="
-        puts contents
-        puts "----------------------\n\n"
-        puts new_contents
-        puts "----------------------\n\n"
         puts xpath, new_xpath, url
         puts "=========================="
       else
