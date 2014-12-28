@@ -17,8 +17,6 @@ rules.each { |x|
     config.strict.nonet
   end
 
-  doc.remove_namespaces!
-
   doc.css('docname').each do |node|
     node.css('url').each do |n|
       url = n.attributes["name"]
