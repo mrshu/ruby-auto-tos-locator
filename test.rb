@@ -61,17 +61,32 @@ rules.each { |x|
 
       if c.length == 0 and nc.length != 0
         puts "NEW BETTER XPATH " + url + " " + new_xpath + " vs " + xpath
-        new_xpath_urls.append(url)
+        new_xpath_urls.push(url)
       elsif contents != new_contents and similarity < 95.0
         puts "FAIL " + url + " similarity: " + similarity.to_s
         puts "=========================="
         puts xpath, new_xpath, url
         puts "=========================="
-        failed_urls.append(url)
+        failed_urls.push(url)
       else
         puts "PASSED " + url + " similarity:" + similarity.to_s
-        passed_urls.append(url)
+        passed_urls.push(url)
       end
     end
   end
 }
+
+passed_tests = passed_urls.length
+missed_tests = problematic_urls.length
+failed_tests = failed_urls.length
+new_xpath_tests = new_xpath_urls.length
+
+total_tests = passed_tests + missed_tests + failed_tests + new_xpath_tests
+
+puts "=================="
+puts "     Summary      "
+puts "=================="
+puts "Passed tests:\t" + passed_tests + "\t" + (passed_urls/total_tests*100.0).to_s
+puts "New XPath tests:\t" + new_xpath_tests + "\t" + (new_xpath_tests/total_tests*100.0).to_s
+puts "Missed tests:\t" + missed_tests + "\t" + (missed_tests/total_tests*100.0).to_s
+puts "Failed tests:\t" + failed_tests + "\t" + (failed_tests/total_tests*100.0).to_s
