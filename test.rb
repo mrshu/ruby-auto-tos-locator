@@ -81,7 +81,7 @@ new_xpath_tests = new_xpath_urls.length
 
 total_tests = passed_tests + missed_tests + failed_tests + new_xpath_tests
 
-passed_tests_perc = (passed_urls/total_tests*100.0)
+passed_tests_perc = (passed_tests/total_tests*100.0)
 missed_tests_perc = (missed_tests/total_tests*100.0)
 failed_tests_perc = (failed_tests/total_tests*100.0)
 new_xpath_tests_perc = (new_xpath_tests/total_tests*100.0)
