@@ -90,7 +90,7 @@ new_xpath_tests_perc = (new_xpath_tests/total_tests*100.0)
 puts "=================="
 puts "     Summary      "
 puts "=================="
-puts "Passed tests:\t" + passed_tests + "\t" + passed_tests_perc.to_s
-puts "New XPath tests:\t" + new_xpath_tests + "\t" + new_xpath_tests_perc.to_s
-puts "Missed tests:\t" + missed_tests + "\t" + missed_tests_perc.to_s
-puts "Failed tests:\t" + failed_tests + "\t" + failed_tests_perc.to_s
+puts "Passed tests:\t#{passed_tests}\t#{passed_tests_perc}"
+puts "New XPath tests:\t#{new_xpath_tests}\t#{new_xpath_tests_perc}"
+puts "Missed tests:\t#{missed_tests}\t#{missed_tests_perc}"
+puts "Failed tests:\t#{failed_tests}\t#{failed_tests_perc}"
