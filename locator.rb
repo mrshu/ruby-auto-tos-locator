@@ -25,13 +25,13 @@ def article_xpath(elem)
     # if there is a class that explicitely as terms, privacy, policy or service
     # in it then it should be enough to locate our desired content on the page
     # by using this element
-    if elem.attr('class') =~ /terms|privacy|policy|service|contents?/i
+    if elem.attr('class') =~ /terms|privacy|policy|service/i
       out = stringify_node(elem, 'class') + out
       break
     end
 
     # the same logic as with class applies
-    if elem.attr('id') =~ /terms|privacy|policy|service|contents?/i
+    if elem.attr('id') =~ /terms|privacy|policy|service|/i
       out = stringify_node(elem, 'id') + out
       break
     end
