@@ -9,4 +9,4 @@ env:
 
 before_install:
   - gem install bundler
-script: ruby test.rb
+script: ruby test.rb travis
