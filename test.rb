@@ -87,10 +87,10 @@ rules.each { |x|
   end
 }
 
-passed_tests = passed_urls.length
-missed_tests = problematic_urls.length
-failed_tests = failed_urls.length
-new_xpath_tests = new_xpath_urls.length
+passed_tests = passed_urls.length.to_f
+missed_tests = problematic_urls.length.to_f
+failed_tests = failed_urls.length.to_f
+new_xpath_tests = new_xpath_urls.length.to_f
 
 total_tests = passed_tests + missed_tests + failed_tests + new_xpath_tests
 
@@ -104,7 +104,7 @@ puts "=================="
 puts "     Summary      "
 puts "=================="
 puts "Passed tests:\t#{passed_tests}\t#{passed_tests_perc}"
-puts "New XPath tests:\t#{new_xpath_tests}\t#{new_xpath_tests_perc}"
+puts "New XPaths:\t#{new_xpath_tests}\t#{new_xpath_tests_perc}"
 puts "Missed tests:\t#{missed_tests}\t#{missed_tests_perc}"
 puts "Failed tests:\t#{failed_tests}\t#{failed_tests_perc}"
 puts "Total tests:\t#{total_tests}\t100.0"
