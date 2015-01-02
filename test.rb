@@ -11,17 +11,15 @@ passed_urls = Array.new
 new_xpath_urls = Array.new
 failed_urls = Array.new
 
-i = 0
-
 rules = Dir.glob(File.join("tosback2", "rules", "*.xml"))
 rules.each { |x|
   doc = Nokogiri::XML(File.open(x)) do |config|
     config.strict.nonet
   end
 
-  # Just the first 350
-  if i >= 350 and ARGV.length == 1 and ARGV[0] == 'travis'
-    break
+  # Just the first 400 or so
+  if rand() >= 0.600 and ARGV.length == 1 and ARGV[0] == 'travis'
+    next
   end
 
   doc.css('docname').each do |node|
@@ -99,6 +97,8 @@ missed_tests_perc = (missed_tests/total_tests*100.0)
 failed_tests_perc = (failed_tests/total_tests*100.0)
 new_xpath_tests_perc = (new_xpath_tests/total_tests*100.0)
 
+accuracy = (passed_tests + new_xpath_tests)/(passed_tests + new_xpath_tests + failed_tests)*100.0
+
 
 puts "=================="
 puts "     Summary      "
@@ -108,3 +108,4 @@ puts "New XPaths:\t#{new_xpath_tests}\t#{new_xpath_tests_perc}"
 puts "Missed tests:\t#{missed_tests}\t#{missed_tests_perc}"
 puts "Failed tests:\t#{failed_tests}\t#{failed_tests_perc}"
 puts "Total tests:\t#{total_tests}\t100.0"
+puts "Accuracy:\t#{accuracy}"
