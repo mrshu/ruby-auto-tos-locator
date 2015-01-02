@@ -17,8 +17,8 @@ rules.each { |x|
     config.strict.nonet
   end
 
-  # Just the first 400 or so
-  if rand() >= 0.600 and ARGV.length == 1 and ARGV[0] == 'travis'
+  # Just the first 300 or so
+  if rand() >= 0.300 and ARGV.length == 1 and ARGV[0] == 'travis'
     next
   end
 
