@@ -37,7 +37,6 @@ rules.each { |x|
       rescue Exception => e
         puts "MISSED other problem (nokogiri html parse) (#{e}!) " + url
         problematic_urls.push(url)
-        i += 1
         next
       end
 
@@ -48,7 +47,6 @@ rules.each { |x|
       rescue Exception => e
         puts "MISSED other problem (xpath_contents_from_url) (#{e}!) " + url
         problematic_urls.push(url)
-        i += 1
         next
       end
 
@@ -59,7 +57,6 @@ rules.each { |x|
         nc = new_contents.to_s
       rescue ArgumentError
         puts "MISSED encoding problem " + url
-        i += 1
         next
       end
 
@@ -68,18 +65,15 @@ rules.each { |x|
       if c.length == 0 and nc.length != 0
         puts "NEW BETTER XPATH " + url + " " + new_xpath + " vs " + xpath
         new_xpath_urls.push(url)
-        i += 1
       elsif contents != new_contents and similarity < 95.0
         puts "FAIL " + url + " similarity: " + similarity.to_s
         puts "=========================="
         puts xpath, new_xpath, url
         puts "=========================="
         failed_urls.push(url)
-        i += 1
       else
         puts "PASSED " + url + " similarity:" + similarity.to_s
         passed_urls.push(url)
-        i += 1
       end
     end
   end
