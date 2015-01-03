@@ -69,7 +69,7 @@ def article_xpath(elem)
   # approximation
   if clean_tags == 3
     begin
-      return Nokogiri::CSS.xpath_for elem.css_path
+      return Nokogiri::CSS.xpath_for(elem.css_path)[0]
     rescue Nokogiri::CSS::SyntaxError
       return "//div[@id='css-syntax-error']"
     end

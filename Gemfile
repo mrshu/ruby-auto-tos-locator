@@ -7,3 +7,4 @@ gem 'nokogiri'
 gem "ruby-readability"
 gem 'open_uri_redirections'
 gem 'similar_text'
+gem 'sanitize'
