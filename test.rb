@@ -27,6 +27,8 @@ rules.each { |x|
       url = n.attributes["name"]
       xpath = n.attributes["xpath"].to_s
 
+      puts "Testing URL: #{url}"
+
       if xpath.length == 0
         # not really interested for now
         next
