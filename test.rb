@@ -17,8 +17,8 @@ rules.each { |x|
     config.strict.nonet
   end
 
-  # Just the first 300 or so
-  if rand() >= 0.300 and ARGV.length == 1 and ARGV[0] == 'travis'
+  # Just some 300 of them
+  if rand(10) >= 6 and ARGV.length == 1 and ARGV[0] == 'travis'
     next
   end
 
@@ -27,12 +27,12 @@ rules.each { |x|
       url = n.attributes["name"]
       xpath = n.attributes["xpath"].to_s
 
-      puts "Testing URL: #{url}"
-
       if xpath.length == 0
         # not really interested for now
         next
       end
+
+      puts "Testing URL: #{url}"
 
       begin
         input = Nokogiri::HTML(open(url, :allow_redirections => :all))
