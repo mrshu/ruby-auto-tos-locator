@@ -16,7 +16,18 @@ def article_xpath(elem)
   # a class or an id
   clean_tags = 0
   out = ''
-  for _ in 1..3
+  i = 0
+  while i < 3
+
+    # if we are in a table and it is such a table that it only holds our text
+    # we just traverse upwards
+    if ['tr', 'td', 'tbody'].include? elem.name
+      if elem.parent.elements.length == 1
+        elem = elem.parent
+        next
+      end
+    end
+
     if elem.attr('id') =~ /^contents?$/i
       out = stringify_node(elem, 'id')
       break
@@ -50,6 +61,8 @@ def article_xpath(elem)
     rescue NoMethodError
       elem = elem
     end
+
+    i += 1
   end
 
   # if we ran into just clean tags rather return a direct XPath than our 3-way
