@@ -32,14 +32,14 @@ end
 
 def strip_tags(newdata)
   begin
-    newdata = Sanitize.clean(@newdata, :remove_contents => ["script", "style"], :elements => %w[ abbr b blockquote br cite code dd dfn dl dt em i li ol p q s small strike strong sub sup u ul ], :whitespace_elements => []) # strips non-style html tags and removes content between <script> and <style> tags
+    newdata = Sanitize.clean(newdata, :remove_contents => ["script", "style"], :elements => %w[ abbr b blockquote br cite code dd dfn dl dt em i li ol p q s small strike strong sub sup u ul ], :whitespace_elements => []) # strips non-style html tags and removes content between <script> and <style> tags
   rescue Encoding::CompatibilityError
     newdata.encode!("UTF-8", :undef => :replace)
-    newdata = Sanitize.clean(@newdata, :remove_contents => ["script", "style"], :elements => %w[ abbr b blockquote br cite code dd dfn dl dt em i li ol p q s small strike strong sub sup u ul ], :whitespace_elements => [])
+    newdata = Sanitize.clean(newdata, :remove_contents => ["script", "style"], :elements => %w[ abbr b blockquote br cite code dd dfn dl dt em i li ol p q s small strike strong sub sup u ul ], :whitespace_elements => [])
   rescue ArgumentError
     newdata.encode!('ISO-8859-1', {:invalid => :replace, :undef => :replace})
     newdata.encode!('UTF-8', {:invalid => :replace, :undef => :replace})
-    newdata = Sanitize.clean(@newdata, :remove_contents => ["script", "style"], :elements => %w[ abbr b blockquote br cite code dd dfn dl dt em i li ol p q s small strike strong sub sup u ul ], :whitespace_elements => [])
+    newdata = Sanitize.clean(newdata, :remove_contents => ["script", "style"], :elements => %w[ abbr b blockquote br cite code dd dfn dl dt em i li ol p q s small strike strong sub sup u ul ], :whitespace_elements => [])
   end
   newdata
 end
@@ -64,6 +64,11 @@ rules.each { |x|
     node.css('url').each do |n|
       url = n.attributes["name"]
       xpath = n.attributes["xpath"].to_s
+
+      # DuckDuckGo Policy is for some reason causing segfaults on Travis
+      if url == "https://duckduckgo.com/privacy.html" and ARGV.length == 1 and ARGV[0] == 'travis'
+        next
+      end
 
       if xpath.length == 0
         # not really interested for now
@@ -94,8 +99,8 @@ rules.each { |x|
       new_contents = input.search(new_xpath)
 
       begin
-        c = contents.to_s
-        nc = new_contents.to_s
+        c = format_newdata(strip_tags(contents.to_s))
+        nc = format_newdata(strip_tags(new_contents.to_s))
       rescue ArgumentError
         puts "MISSED encoding problem " + url
         next
@@ -107,10 +112,10 @@ rules.each { |x|
       if c.length == 0 and nc.length != 0
         puts "NEW BETTER XPATH " + url + " " + new_xpath + " vs " + xpath
         new_xpath_urls.push(url)
-      elsif contents != new_contents and similarity < 95.0
+      elsif (c != nc and similarity < 95.0) or (c.length == 0 and nc.length == 0)
         puts "FAIL " + url + " similarity: " + similarity.to_s
         puts "=========================="
-        puts xpath, new_xpath, url
+        puts xpath, new_xpath, url, c.length, nc.length
         puts "=========================="
         failed_urls.push(url)
       else
