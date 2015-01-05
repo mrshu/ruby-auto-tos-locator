@@ -22,7 +22,7 @@ def article_xpath(elem)
     # if we are in a table and it is such a table that it only holds our text
     # we just traverse upwards
     if ['tr', 'td', 'tbody'].include? elem.name
-      if elem.parent.elements.length == 1
+      if elem.parent.elements.length == 1 and out == ''
         elem = elem.parent
         next
       end
@@ -68,10 +68,12 @@ def article_xpath(elem)
   # if we ran into just clean tags rather return a direct XPath than our 3-way
   # approximation
   if clean_tags == 3
-    begin
+    # if we get the top element directly, let's just return the whole HTML file
+    # (not even body)
+    if elem.css_path.empty?
+      return '//html'
+    else
       return Nokogiri::CSS.xpath_for(elem.css_path)[0]
-    rescue Nokogiri::CSS::SyntaxError
-      return "//div[@id='css-syntax-error']"
     end
   else
     return '/' + out
