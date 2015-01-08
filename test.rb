@@ -55,8 +55,8 @@ rules.each { |x|
     config.strict.nonet
   end
 
-  # Just some 300 of them
-  if rand(10) >= 6 and ARGV.length == 1 and ARGV[0] == 'travis'
+  # Just some 500 of them
+  if rand(10) < 5 and ARGV.length == 1 and ARGV[0] == 'travis'
     next
   end
 
