@@ -150,3 +150,7 @@ puts "Missed tests:\t#{missed_tests}\t#{missed_tests_perc}"
 puts "Failed tests:\t#{failed_tests}\t#{failed_tests_perc}"
 puts "Total tests:\t#{total_tests}\t100.0"
 puts "Accuracy:\t#{accuracy}"
+
+if accuracy < 85.0
+  Process.exit(1)
+end
