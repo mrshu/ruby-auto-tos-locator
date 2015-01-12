@@ -67,6 +67,7 @@ rules.each { |x|
 
       # DuckDuckGo Policy is for some reason causing segfaults on Travis
       if url == "https://duckduckgo.com/privacy.html" and ARGV.length == 1 and ARGV[0] == 'travis'
+        puts "Skipping DuckDuckGo"
         next
       end
 
