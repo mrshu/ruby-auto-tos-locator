@@ -62,7 +62,7 @@ rules.each { |x|
 
   doc.css('docname').each do |node|
     node.css('url').each do |n|
-      url = n.attributes["name"]
+      url = n.attributes["name"].to_s
       xpath = n.attributes["xpath"].to_s
 
       # DuckDuckGo Policy is for some reason causing segfaults on Travis
