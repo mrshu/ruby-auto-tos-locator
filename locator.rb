@@ -19,6 +19,14 @@ def article_xpath(elem)
   i = 0
   while i < 3
 
+    # no terms or services have ever fit into a span or a p
+    if ['span', 'p'].include? elem.name and out == ''
+      if elem.attr('id').nil? and elem.attr('class').nil?
+        elem = elem.parent
+        next
+      end
+    end
+
     # if we are in a table and it is such a table that it only holds our text
     # we just traverse upwards
     if ['tr', 'td', 'tbody'].include? elem.name
@@ -53,7 +61,8 @@ def article_xpath(elem)
       out = stringify_node(elem, 'class') + out
     else
       clean_tags += 1
-      out = '/' + elem.name + out
+      full_xpath = Nokogiri::CSS.xpath_for(elem.css_path)[0].to_s
+      out = '/' + full_xpath.split('/').last + out
     end
 
     begin
@@ -73,7 +82,7 @@ def article_xpath(elem)
     if elem.css_path.empty?
       return '//html'
     else
-      return Nokogiri::CSS.xpath_for(elem.css_path)[0]
+      return Nokogiri::CSS.xpath_for(elem.css_path)[0].to_s
     end
   else
     return '/' + out
