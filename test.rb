@@ -115,6 +115,7 @@ rules.each { |x|
         new_xpath_urls.push(url)
       elsif (c != nc and similarity < 95.0) or (c.length == 0 and nc.length == 0)
         puts "FAIL " + url + " similarity: " + similarity.to_s
+        if nc.length > c.length then puts "POSSIBLY BETTER " + new_xpath + " " + url end
         puts "=========================="
         puts xpath, new_xpath, url, c.length, nc.length
         puts "=========================="
